@@ -1,0 +1,12 @@
+# templates/mysql-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "mychart.fullname" . }}-mysql
+spec:
+  type: {{ .Values.mysql.service.type }}
+  ports:
+    - port: {{ .Values.mysql.service.port }}
+  selector:
+    app: {{ include "mychart.name" . }}
+    component: mysql

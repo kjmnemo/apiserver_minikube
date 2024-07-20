@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-api-server-deployment
+  labels:
+    app: my-api-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-api-server
+  template:
+    metadata:
+      labels:
+        app: my-api-server
+    spec:
+      containers:
+        - name: my-api-server
+          image: therekkon/my-api-server
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: my-api-server-config
+          readinessProbe:
+            httpGet:
+              path: /health  # /health 엔드포인트를 통해 상태 확인
+              port: 3000     # 컨테이너 내 포트 설정
+            initialDelaySeconds: 5   # 시작 후 몇 초 후부터 체크를 시작할지 설정
+            periodSeconds: 10         # 체크 간격 설정
+            failureThreshold: 3       # 연속으로 실패할 수 있는 횟수 설정

@@ -1,0 +1,38 @@
+# templates/mysql-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mychart.fullname" . }}-mysql
+spec:
+  selector:
+    matchLabels:
+      app: {{ include "mychart.name" . }}
+      component: mysql
+  template:
+    metadata:
+      labels:
+        app: {{ include "mychart.name" . }}
+        component: mysql
+    spec:
+      containers:
+        - name: mysql
+          image: "{{ .Values.mysql.image.repository }}:{{ .Values.mysql.image.tag }}"
+          imagePullPolicy: {{ .Values.mysql.image.pullPolicy }}
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mychart.fullname" . }}-mysql
+                  key: root-password
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: initdb
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: initdb
+          configMap:
+            name: {{ include "mychart.fullname" . }}-mysql-initdb
+            items:
+              - key: initdb.sql
+                path: initdb.sql

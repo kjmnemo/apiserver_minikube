@@ -1,0 +1,35 @@
+# values.yaml
+api:
+  replicaCount: 1
+  image:
+    repository: therekkon/my-api-server
+    tag: "latest"
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: "80"
+
+mysql:
+  image:
+    repository: mysql
+    tag: "5.7"
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: "3306"
+  rootPassword: "password"
+  dbName: "mydatabase"
+
+env:
+  DB_HOST: mychart-mysql
+  DB_USER: root
+  DB_PASSWORD: password
+  DB_NAME: mydatabase
+
+ingress:
+  enabled: false
+  host: ""
+  
+service:
+  type: ClusterIP
+  port: "80"

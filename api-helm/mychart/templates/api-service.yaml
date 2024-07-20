@@ -1,0 +1,12 @@
+# templates/api-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "mychart.fullname" . }}-api
+spec:
+  type: {{ .Values.api.service.type }}
+  ports:
+    - port: {{ .Values.api.service.port }}
+  selector:
+    app: {{ include "mychart.name" . }}
+    component: api

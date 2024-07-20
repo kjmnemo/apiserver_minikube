@@ -1,0 +1,14 @@
+{
+  "name": "my-api-server",
+  "version": "1.0.0",
+  "description": "API server with health check and DB CRUD operations",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "mysql2": "^2.2.5",
+    "body-parser": "^1.19.0"
+  }
+}

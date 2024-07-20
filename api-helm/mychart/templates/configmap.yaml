@@ -1,0 +1,8 @@
+# templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "mychart.fullname" . }}-mysql-initdb
+data:
+  initdb.sql: |
+    CREATE DATABASE IF NOT EXISTS mydatabase;
